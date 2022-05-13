@@ -22,6 +22,7 @@ namespace Behaviours
             ZombiePartRegenerated += () => onRegenerate.ForEach(unityEvent => unityEvent.Invoke());
         }
 
+        [ContextMenu("Kill")]
         public void Kill()
         {
             // Cannot be killed if already dead
@@ -46,6 +47,7 @@ namespace Behaviours
         private bool IsTimeToRegenerate() => Time.time - _timeKilled > waitTimeBeforeRegenerateInSeconds;
         private bool IsAlive() => _dead == false;
 
+        [ContextMenu("Regenerate")]
         public void Regenerate()
         {
             // should not regenerate if already alive
