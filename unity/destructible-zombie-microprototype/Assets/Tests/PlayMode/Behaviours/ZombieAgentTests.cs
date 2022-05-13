@@ -22,16 +22,16 @@ namespace Tests.PlayMode.Behaviours
             Assert.AreEqual(1, eventCallCount);
         }
 
-    [UnityTest]
-        public IEnumerator ZombieAgent_CanBeMadeUpOfZombieParts()
+        [UnityTest]
+        public IEnumerator ZombieAgent_CanBeMadeUpOfNestedZombieParts()
         {
             var testZombiePart1 = new GameObject().AddComponent<ZombiePartSpy>();
             var testZombiePart2 = new GameObject().AddComponent<ZombiePartSpy>();
             var sut = new GameObject().AddComponent<ZombieAgent>();
             var eventCallCount = 0;
             sut.ZombiePartRegistered += _ => eventCallCount++;
+            testZombiePart2.transform.parent = testZombiePart1.transform;
             testZombiePart1.transform.parent = sut.transform;
-            testZombiePart2.transform.parent = sut.transform;
             yield return null;
 
             Assert.AreEqual(2, eventCallCount);
