@@ -10,7 +10,7 @@ namespace Tests.PlayMode.Behaviours
     public class ZombieAgentTests
     {
         [UnityTest]
-        public IEnumerator ZombieAgent_CanBeMadeUpOfZombieParts()
+        public IEnumerator ZombieAgent_CanBeMadeUpOfAZombiePart()
         {
             var testZombiePart = new GameObject().AddComponent<ZombiePartSpy>();
             var sut = new GameObject().AddComponent<ZombieAgent>();
@@ -20,6 +20,21 @@ namespace Tests.PlayMode.Behaviours
             yield return null;
 
             Assert.AreEqual(1, eventCallCount);
+        }
+
+    [UnityTest]
+        public IEnumerator ZombieAgent_CanBeMadeUpOfZombieParts()
+        {
+            var testZombiePart1 = new GameObject().AddComponent<ZombiePartSpy>();
+            var testZombiePart2 = new GameObject().AddComponent<ZombiePartSpy>();
+            var sut = new GameObject().AddComponent<ZombieAgent>();
+            var eventCallCount = 0;
+            sut.ZombiePartRegistered += _ => eventCallCount++;
+            testZombiePart1.transform.parent = sut.transform;
+            testZombiePart2.transform.parent = sut.transform;
+            yield return null;
+
+            Assert.AreEqual(2, eventCallCount);
         }
     }
 }
