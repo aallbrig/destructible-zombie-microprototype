@@ -2,6 +2,7 @@ using System.Collections;
 using Behaviours;
 using NUnit.Framework;
 using Tests.Utilities;
+using Tests.Utilities.Spies;
 using UnityEngine;
 using UnityEngine.TestTools;
 

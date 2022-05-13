@@ -2,7 +2,7 @@ using System;
 using Models;
 using UnityEngine;
 
-namespace Tests.Utilities
+namespace Tests.Utilities.Spies
 {
     public class ZombiePartSpy : MonoBehaviour, IZombiePart
     {

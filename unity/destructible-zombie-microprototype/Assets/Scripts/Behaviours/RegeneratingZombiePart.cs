@@ -6,7 +6,7 @@ using UnityEngine.Events;
 
 namespace Behaviours
 {
-    public class RegeneratingZombiePart : MonoBehaviour, IZombiePart
+    public class RegeneratingZombiePart : MonoBehaviour, IZombiePart, IInteractable
     {
         public event Action ZombiePartKilled;
         public event Action ZombiePartRegenerated;
@@ -55,6 +55,14 @@ namespace Behaviours
 
             _dead = false;
             ZombiePartRegenerated?.Invoke();
+        }
+
+        public event Action Interacted;
+
+        public void Interact()
+        {
+            Kill();
+            Interacted?.Invoke();
         }
     }
 }
