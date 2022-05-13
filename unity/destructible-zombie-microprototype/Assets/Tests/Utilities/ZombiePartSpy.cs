@@ -6,11 +6,11 @@ namespace Tests.Utilities
 {
     public class ZombiePartSpy : MonoBehaviour, IZombiePart
     {
-        public event Action OnKilled;
+        public event Action ZombiePartKilled;
 
         public void Kill()
         {
-            OnKilled?.Invoke();
+            ZombiePartKilled?.Invoke();
         }
     }
 }

@@ -12,10 +12,10 @@ namespace Tests.PlayMode.Behaviours
         [UnityTest]
         public IEnumerator ZombieAgent_CanBeMadeUpOfAZombiePart()
         {
-            var testZombiePart = new GameObject().AddComponent<ZombiePartSpy>();
             var sut = new GameObject().AddComponent<ZombieAgent>();
+            var testZombiePart = new GameObject().AddComponent<ZombiePartSpy>();
             var eventCallCount = 0;
-            sut.ZombiePartRegistered += _ => eventCallCount++;
+            sut.ZombiePartDiscovered += _ => eventCallCount++;
             testZombiePart.transform.parent = sut.transform;
             yield return null;
 
@@ -25,16 +25,32 @@ namespace Tests.PlayMode.Behaviours
         [UnityTest]
         public IEnumerator ZombieAgent_CanBeMadeUpOfNestedZombieParts()
         {
+            var sut = new GameObject().AddComponent<ZombieAgent>();
             var testZombiePart1 = new GameObject().AddComponent<ZombiePartSpy>();
             var testZombiePart2 = new GameObject().AddComponent<ZombiePartSpy>();
-            var sut = new GameObject().AddComponent<ZombieAgent>();
             var eventCallCount = 0;
-            sut.ZombiePartRegistered += _ => eventCallCount++;
+            sut.ZombiePartDiscovered += _ => eventCallCount++;
             testZombiePart2.transform.parent = testZombiePart1.transform;
             testZombiePart1.transform.parent = sut.transform;
             yield return null;
 
             Assert.AreEqual(2, eventCallCount);
+        }
+
+        [UnityTest]
+        public IEnumerator ZombieAgent_Dies_WhenEnoughZombieParts_AreKilled()
+        {
+            var sut = new GameObject().AddComponent<ZombieAgent>();
+            var eventCalled = false;
+            var testZombiePart = new GameObject().AddComponent<ZombiePartSpy>();
+            sut.ZombieAgentKilled += _ => eventCalled = true;
+            sut.maxHealth = 1;
+            testZombiePart.transform.parent = sut.transform;
+            yield return null;
+
+            testZombiePart.Kill();
+
+            Assert.IsTrue(eventCalled);
         }
     }
 }

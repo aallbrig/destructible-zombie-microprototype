@@ -6,6 +6,10 @@ namespace Behaviours
 {
     public class RegeneratingZombiePart : MonoBehaviour, IZombiePart
     {
-        public event Action OnKilled;
+        public event Action ZombiePartKilled;
+        public event Action ZombiePartRegenerated;
+
+        public void Kill() => ZombiePartKilled?.Invoke();
+        public void Regenerate() => ZombiePartRegenerated?.Invoke();
     }
 }
