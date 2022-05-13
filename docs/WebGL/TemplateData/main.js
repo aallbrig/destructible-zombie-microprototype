@@ -7,7 +7,7 @@ var config = {
     streamingAssetsUrl: "StreamingAssets",
     companyName: "Andrew Allbright",
     productName: "Destructible Zombie Microprototype",
-    productVersion: "0.0.13",
+    productVersion: "0.0.14",
     devicePixelRatio: 1,
 }
 
