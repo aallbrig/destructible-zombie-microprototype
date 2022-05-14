@@ -19,8 +19,7 @@ namespace Behaviours
 
         private void Start()
         {
-            HealthSystem ??= Instantiate(zombieHealthSystem);
-            HealthSystem ??= new HealthSystem();
+            HealthSystem ??= zombieHealthSystem != null ? (IHealthSystem)Instantiate(zombieHealthSystem) : new HealthSystem();
 
             DiscoverAndSetZombieParts();
         }
