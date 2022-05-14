@@ -1,5 +1,6 @@
 using System.Collections;
 using Behaviours;
+using Models;
 using NUnit.Framework;
 using Tests.Utilities;
 using Tests.Utilities.Spies;
@@ -42,10 +43,10 @@ namespace Tests.PlayMode.Behaviours
         public IEnumerator ZombieAgent_Dies_WhenEnoughZombieParts_AreKilled()
         {
             var sut = new GameObject().AddComponent<ZombieAgent>();
-            var eventCalled = false;
             var testZombiePart = new GameObject().AddComponent<ZombiePartSpy>();
+            var eventCalled = false;
+            sut.HealthSystem = new HealthSystem { MaxHealth = 1 };
             sut.ZombieAgentKilled += _ => eventCalled = true;
-            sut.maxHealth = 1;
             testZombiePart.transform.parent = sut.transform;
             yield return null;
 

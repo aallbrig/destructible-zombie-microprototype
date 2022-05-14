@@ -51,8 +51,9 @@ namespace Controllers
             if (Physics.Raycast(ray, out var hit, 100f))
             {
                 var maybeInteractable = hit.collider.transform.GetComponent<IInteractable>();
-                if (maybeInteractable != null) maybeInteractable.Interact();
+                if (CanInteract(maybeInteractable)) maybeInteractable.Interact();
             }
         }
+        private static bool CanInteract(IInteractable maybeInteractable) => maybeInteractable != null;
     }
 }

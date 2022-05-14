@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Models;
+using ScriptableObjects;
+using UnityEditorInternal;
 using UnityEngine;
 
 namespace Behaviours
@@ -10,13 +12,16 @@ namespace Behaviours
     {
         public event Action<IZombiePart> ZombiePartDiscovered;
         public event Action<ZombieAgent> ZombieAgentKilled;
-        public float maxHealth = 3;
+        public ZombieHealth zombieHealthSystem;
 
         private readonly List<IZombiePart> _zombieParts = new List<IZombiePart>();
-        private float _currentHealth;
+        public IHealthSystem HealthSystem;
 
         private void Start()
         {
+            HealthSystem ??= Instantiate(zombieHealthSystem);
+            HealthSystem ??= new HealthSystem();
+
             DiscoverAndSetZombieParts();
         }
         private void DiscoverAndSetZombieParts()
@@ -32,23 +37,13 @@ namespace Behaviours
         }
         private void BindListeners()
         {
-            _zombieParts.ForEach(zombiePart =>
-            {
-                zombiePart.ZombiePartKilled += OnZombiePartKilled;
-            });
+            HealthSystem.Killed += () => ZombieAgentKilled?.Invoke(this);
+            _zombieParts.ForEach(zombiePart => zombiePart.ZombiePartKilled += OnZombiePartKilled);
         }
-        private void OnZombiePartKilled()
-        {
-            Damage(1);
-        }
-        private void Damage(float damage)
-        {
-            _currentHealth = Mathf.Clamp(_currentHealth - damage, 0f, maxHealth);
-            if (_currentHealth <= 0f) ZombieAgentKilled?.Invoke(this);
-        }
+        private void OnZombiePartKilled() => HealthSystem.Hurt(1);
         private void Reset()
         {
-            _currentHealth = maxHealth;
+            HealthSystem.Reset();
             UnbindListeners();
             _zombieParts.Clear();
         }
