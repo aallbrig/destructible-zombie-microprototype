@@ -5,6 +5,7 @@ using UnityEngine;
 namespace ScriptableObjects
 {
     [CreateAssetMenu(fileName = "new Zombie Health", menuName = "GAME/ZombieHealth", order = 0)]
+    // Decorator wrapping a IHealthSystem
     public class ZombieHealth : ScriptableObject, IHealthSystem
     {
         public event Action<float> Damaged;
@@ -12,7 +13,8 @@ namespace ScriptableObjects
         public event Action Killed;
         public float maxHealth = 3;
 
-        private HealthSystem _healthSystem;
+        private IHealthSystem _healthSystem;
+
         private void OnEnable()
         {
             _healthSystem ??= new HealthSystem { MaxHealth = maxHealth };
