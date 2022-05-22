@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace ScriptableObjects
 {
-    [CreateAssetMenu(fileName = "new Zombie Health", menuName = "GAME/ZombieHealth", order = 0)]
+    [CreateAssetMenu(fileName = "New Zombie Health", menuName = "GAME/ZombieHealth", order = 0)]
     // Decorator wrapping a IHealthSystem
     public class ZombieHealth : ScriptableObject, IHealthSystem
     {
